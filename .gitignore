@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.env
+.venv/
+venv/
+
+# Model files (large binaries — add manually)
+model/*.pkl
+
+# Data
+data/raw/
+data/processed/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Misc
+.DS_Store
+Thumbs.db
+*.log
