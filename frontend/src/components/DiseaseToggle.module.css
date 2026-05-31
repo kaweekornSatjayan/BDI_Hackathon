@@ -1,0 +1,42 @@
+.row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  flex: 1;
+  min-width: 160px;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: #fff;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.btn:hover {
+  border-color: var(--primary);
+}
+
+.btnActive {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.error {
+  font-size: 0.82rem;
+  color: var(--high);
+  margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+  .btn { min-width: 100%; }
+}

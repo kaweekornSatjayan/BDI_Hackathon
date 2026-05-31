@@ -1,0 +1,40 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #f0f4f8;
+  --surface: #ffffff;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
+  --border: #d1d5db;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --radius: 10px;
+
+  /* Risk colours */
+  --low: #16a34a;
+  --low-bg: #dcfce7;
+  --low-border: #86efac;
+  --med: #d97706;
+  --med-bg: #fef3c7;
+  --med-border: #fcd34d;
+  --high: #dc2626;
+  --high-bg: #fee2e2;
+  --high-border: #fca5a5;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 24px 16px 60px;
+}
+
+@media (max-width: 600px) {
+  body { padding: 16px 12px 48px; }
+}

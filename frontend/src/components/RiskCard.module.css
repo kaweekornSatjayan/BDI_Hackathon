@@ -1,0 +1,44 @@
+.card {
+  border-radius: var(--radius);
+  padding: 20px 14px;
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+/* Level variants */
+.low    { background: var(--low-bg);  border-color: var(--low-border);  }
+.medium { background: var(--med-bg);  border-color: var(--med-border);  }
+.high   { background: var(--high-bg); border-color: var(--high-border); }
+
+.icon { font-size: 1.8rem; line-height: 1; }
+
+.name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 6px;
+  min-height: 2.4em;
+}
+
+.pct {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-top: 4px;
+  line-height: 1;
+}
+.low  .pct { color: var(--low);  }
+.medium .pct { color: var(--med);  }
+.high   .pct { color: var(--high); }
+
+.badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 2px 12px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.low    .badge { background: #bbf7d0; color: #15803d; }
+.medium .badge { background: #fde68a; color: #b45309; }
+.high   .badge { background: #fecaca; color: #b91c1c; }
