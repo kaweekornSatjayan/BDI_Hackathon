@@ -1,0 +1,89 @@
+.wrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover td {
+  background: #f8fafc;
+}
+
+.currentRow td {
+  background: #eff6ff !important;
+}
+
+.medName {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Score bar */
+.scoreBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+}
+
+.bar {
+  height: 8px;
+  border-radius: 4px;
+  flex-grow: 1;
+  max-width: 100px;
+}
+
+.bar.high { background: var(--low);  }
+.bar.med  { background: var(--med);  }
+.bar.low  { background: var(--border); }
+
+.scoreLabel {
+  font-size: 0.82rem;
+  color: var(--muted);
+  white-space: nowrap;
+  min-width: 36px;
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge.high { background: var(--low-bg);  color: var(--low);  }
+.badge.med  { background: var(--med-bg);  color: var(--med);  }
+.badge.low  { background: #f3f4f6;        color: var(--muted); }
+
+.center { text-align: center; }
+
+.empty {
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 12px 0;
+}

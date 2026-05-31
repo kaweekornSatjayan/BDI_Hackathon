@@ -1,11 +1,11 @@
 const API_BASE = import.meta.env.VITE_API_URL ?? ''
 
 /**
- * @param {object} payload  — matches PredictInput schema
- * @returns {Promise<object>} — PredictOutput from backend
+ * @param {object} payload  — matches PatientInput schema
+ * @returns {Promise<object>} — suggestions from backend
  */
-export async function callPredict(payload) {
-  const res = await fetch(`${API_BASE}/predict`, {
+export async function callSuggest(payload) {
+  const res = await fetch(`${API_BASE}/api/suggest`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
