@@ -109,3 +109,77 @@
 @media (max-width: 600px) {
   .grid2, .grid3 { grid-template-columns: 1fr; }
 }
+
+/* Comorbidities & Medications toggle */
+.comorbGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.comorbItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+  background: white;
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--text);
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.comorbItem input { accent-color: var(--primary); }
+
+.comorbActive {
+  border-color: var(--primary);
+  background: #eff6ff;
+  color: var(--primary);
+}
+
+/* Alias — same style used for medications */
+.checkGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.checkItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+  background: white;
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--text);
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.checkItem input { accent-color: var(--primary); }
+
+.checkActive {
+  border-color: var(--primary);
+  background: #eff6ff;
+  color: var(--primary);
+}
+
+.fieldErr {
+  color: var(--high);
+  font-size: 0.8rem;
+  margin-top: 6px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-bottom: 12px;
+}

@@ -72,26 +72,67 @@ class ModelBundle:
         """Build feature vector, scale, and return {ckd, stroke, cad: probability}."""
         sex_encoded = self.encode_sex(str(raw_data.get("sex", "")))
 
-        sbp_mean   = float(raw_data.get("sbp_mean",   0) or 0)
-        dbp_mean   = float(raw_data.get("dbp_mean",   0) or 0)
-        hba1c_mean = float(raw_data.get("hba1c_mean") or 0)
+        def _f(key: str, fallback: float = 0.0) -> float:
+            return float(raw_data.get(key) or fallback)
 
-        # Build row in exact feature order from model
+        sbp_mean   = _f("sbp_mean")
+        dbp_mean   = _f("dbp_mean")
+        hba1c_mean = _f("hba1c_mean")
+        fpg_mean   = _f("fpg_mean")
+        chol_mean  = _f("chol_mean")
+        ldl_mean   = _f("ldl_mean")
+        bmi_mean   = _f("bmi_mean")
+
+        # Build row matching exact 33-feature order from ht_model.pkl:
+        # vitalsign_sbp_mean/std/max, vitalsign_dbp_mean/std/max,
+        # vitalsign_bmi_mean/std/max, lab_hba1c_mean/std/max,
+        # lab_fpg_mean/std/max, lab_chol_mean/std/max, lab_ldl_mean/std/max,
+        # age, sex, co_dm, co_stroke, co_cad, co_ckd, co_arrhythmias,
+        # med_acei, med_arb, med_ccb, med_diuretics, med_beta_blocker
         value_map = {
-            "age":            float(raw_data.get("age", 0) or 0),
-            "sex":            sex_encoded,
-            "sbp_mean":       sbp_mean,
-            "sbp_std":        float(raw_data.get("sbp_std")   or 0),
-            "sbp_max":        float(raw_data.get("sbp_max")   or sbp_mean),
-            "dbp_mean":       dbp_mean,
-            "dbp_std":        float(raw_data.get("dbp_std")   or 0),
-            "dbp_max":        float(raw_data.get("dbp_max")   or dbp_mean),
-            "hba1c_mean":     hba1c_mean,
-            "hba1c_std":      float(raw_data.get("hba1c_std") or 0),
-            "hba1c_max":      float(raw_data.get("hba1c_max") or hba1c_mean),
-            "bmi_mean":       float(raw_data.get("bmi_mean",  0) or 0),
-            "fpg_mean":       float(raw_data.get("fpg_mean")  or 0),
-            "hemoglobin_mean": float(raw_data.get("hemoglobin_mean") or 0),
+            # SBP
+            "vitalsign_sbp_mean": sbp_mean,
+            "vitalsign_sbp_std":  _f("sbp_std"),
+            "vitalsign_sbp_max":  _f("sbp_max", sbp_mean),
+            # DBP
+            "vitalsign_dbp_mean": dbp_mean,
+            "vitalsign_dbp_std":  _f("dbp_std"),
+            "vitalsign_dbp_max":  _f("dbp_max", dbp_mean),
+            # BMI
+            "vitalsign_bmi_mean": bmi_mean,
+            "vitalsign_bmi_std":  _f("bmi_std"),
+            "vitalsign_bmi_max":  _f("bmi_max", bmi_mean),
+            # HbA1c
+            "lab_hba1c_mean": hba1c_mean,
+            "lab_hba1c_std":  _f("hba1c_std"),
+            "lab_hba1c_max":  _f("hba1c_max", hba1c_mean),
+            # FPG
+            "lab_fpg_mean": fpg_mean,
+            "lab_fpg_std":  _f("fpg_std"),
+            "lab_fpg_max":  _f("fpg_max", fpg_mean),
+            # Cholesterol
+            "lab_chol_mean": chol_mean,
+            "lab_chol_std":  _f("chol_std"),
+            "lab_chol_max":  _f("chol_max", chol_mean),
+            # LDL
+            "lab_ldl_mean": ldl_mean,
+            "lab_ldl_std":  _f("ldl_std"),
+            "lab_ldl_max":  _f("ldl_max", ldl_mean),
+            # Demographics
+            "age": _f("age"),
+            "sex": sex_encoded,
+            # Comorbidities
+            "co_dm":         float(raw_data.get("co_dm", 0) or 0),
+            "co_stroke":     float(raw_data.get("co_stroke", 0) or 0),
+            "co_cad":        float(raw_data.get("co_cad", 0) or 0),
+            "co_ckd":        float(raw_data.get("co_ckd", 0) or 0),
+            "co_arrhythmias": float(raw_data.get("co_arrhythmias", 0) or 0),
+            # Current medications
+            "med_acei":        float(raw_data.get("med_acei", 0) or 0),
+            "med_arb":         float(raw_data.get("med_arb", 0) or 0),
+            "med_ccb":         float(raw_data.get("med_ccb", 0) or 0),
+            "med_diuretics":   float(raw_data.get("med_diuretics", 0) or 0),
+            "med_beta_blocker": float(raw_data.get("med_beta_blocker", 0) or 0),
         }
 
         row = np.array([[value_map[f] for f in self.features]], dtype=np.float64)
