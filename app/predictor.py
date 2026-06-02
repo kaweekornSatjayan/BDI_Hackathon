@@ -171,8 +171,9 @@ def _load_model(path: str, name: str) -> ModelBundle | None:
 
 def load_all_models() -> None:
     global _HT_MODEL, _DM_MODEL
-    _HT_MODEL = _load_model("model/ht_model.pkl", "ht_model")
-    _DM_MODEL = _load_model("model/dm_model.pkl", "dm_model")
+    _base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    _HT_MODEL = _load_model(os.path.join(_base, "model", "ht_model.pkl"), "ht_model")
+    _DM_MODEL = _load_model(os.path.join(_base, "model", "dm_model.pkl"), "dm_model")
 
 
 load_all_models()
