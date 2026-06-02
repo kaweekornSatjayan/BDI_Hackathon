@@ -54,10 +54,11 @@ class ModelBundle:
         if not isinstance(obj, dict) or "models" not in obj:
             raise ValueError(f"Unexpected model format in {path}")
 
-        self.scaler: Any = obj["scaler"]
+        self.scaler: Any = obj.get("scaler")           # optional — some models don't have scaler
+        self.feature_medians: dict = obj.get("feature_medians", {})
         self.label_encoder_sex: Any = obj.get("label_encoder_sex")
         self._models: dict[str, Any] = obj["models"]   # keys: co_ckd, co_stroke, co_cad
-        self.features: list[str] = obj["features"]     # 14 feature names in order
+        self.features: list[str] = obj["features"]
 
     def encode_sex(self, sex_str: str) -> int:
         s = sex_str.strip().upper()
@@ -136,14 +137,14 @@ class ModelBundle:
         }
 
         row = np.array([[value_map[f] for f in self.features]], dtype=np.float64)
-        row_scaled = self.scaler.transform(row)
+        row_input = self.scaler.transform(row) if self.scaler is not None else row
 
         result: dict[str, float] = {}
         for pkl_key, api_key in _TARGET_MAP.items():
             if pkl_key not in self._models:
                 result[api_key] = 0.0
                 continue
-            proba = self._models[pkl_key].predict_proba(row_scaled)[0]
+            proba = self._models[pkl_key].predict_proba(row_input)[0]
             result[api_key] = float(proba[1]) if len(proba) > 1 else float(proba[0])
 
         return result
