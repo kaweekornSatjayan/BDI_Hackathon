@@ -189,6 +189,36 @@ $$P_{combined} = 1 - (1 - P_{HT}) \times (1 - P_{DM})$$
 
 ---
 
+## Deployment
+
+### Production — Cloud (Hugging Face Spaces)
+
+| รายการ | รายละเอียด |
+|--------|-----------|
+| **ประเภท** | Cloud Deployment (Public) |
+| **Platform** | [Hugging Face Spaces](https://huggingface.co/spaces) |
+| **Runtime** | Docker container (python:3.11-slim) |
+| **URL** | https://kavkorn-bdi-hackathon.hf.space |
+| **Web UI** | https://kavkorn-bdi-hackathon.hf.space/app |
+| **API Docs** | https://kavkorn-bdi-hackathon.hf.space/docs |
+| **Hardware** | CPU Basic (ฟรี) |
+
+**สิ่งที่ deploy บน cloud:**
+- FastAPI backend (Python 3.11)
+- React + Vite frontend (pre-built แล้ว serve เป็น static files)
+- XGBoost model (`ht_model.pkl`) อยู่ใน container
+- CBR reference data (`cleaned_hypertension.xlsx`, `cleaned_diabetes.xlsx`) อยู่ใน container
+
+**หมายเหตุ:** ไม่ใช่ On-Premise — ไม่ต้องมี server ของตัวเอง ทุกอย่างรันบน infrastructure ของ Hugging Face
+
+---
+
+### Local (On-Premise / Development)
+
+รันในเครื่องเองได้เช่นกัน เหมาะสำหรับพัฒนาหรือใช้ภายในองค์กร:
+
+---
+
 ## Setup & Run
 
 ### Requirements
