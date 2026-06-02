@@ -8,7 +8,7 @@ __pycache__/
 venv/
 
 # Model files (large binaries — add manually)
-model/*.pkl
+# model/*.pkl
 
 # Data
 data/raw/
