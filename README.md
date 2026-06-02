@@ -39,7 +39,7 @@ BDI_Hackathon/
 
 | Feature | Description |
 |---------|-------------|
-| `POST /predict` | ทำนายความเสี่ยง CKD, Stroke, CAD จาก 14 clinical features |
+| `POST /predict` | ทำนายความเสี่ยง CKD, Stroke, CAD จาก 33 clinical features |
 | `POST /api/suggest` | แนะนำยาผ่าน Weighted KNN + Distance-Weighted Voting |
 | `GET /app` | React web UI |
 | `GET /docs` | FastAPI Swagger UI |
@@ -48,18 +48,20 @@ BDI_Hackathon/
 
 ## ML Model Details
 
-**Input features (14):**
+**Input features (33):**
 
-| Feature | Description |
-|---------|-------------|
-| `age` | อายุ (ปี) |
-| `sex` | เพศ (MALE / FEMALE) |
-| `sbp_mean`, `sbp_std`, `sbp_max` | Systolic BP aggregations (mmHg) |
-| `dbp_mean`, `dbp_std`, `dbp_max` | Diastolic BP aggregations (mmHg) |
-| `hba1c_mean`, `hba1c_std`, `hba1c_max` | HbA1c aggregations (%) |
-| `bmi_mean` | BMI (kg/m²) |
-| `fpg_mean` | Fasting Plasma Glucose (mg/dL) |
-| `hemoglobin_mean` | Hemoglobin (g/dL) |
+| กลุ่ม | Features |
+|-------|---------|
+| Demographics | `age`, `sex` |
+| Systolic BP | `vitalsign_sbp_mean`, `vitalsign_sbp_std`, `vitalsign_sbp_max` |
+| Diastolic BP | `vitalsign_dbp_mean`, `vitalsign_dbp_std`, `vitalsign_dbp_max` |
+| BMI | `vitalsign_bmi_mean`, `vitalsign_bmi_std`, `vitalsign_bmi_max` |
+| HbA1c | `lab_hba1c_mean`, `lab_hba1c_std`, `lab_hba1c_max` |
+| Fasting Glucose | `lab_fpg_mean`, `lab_fpg_std`, `lab_fpg_max` |
+| Cholesterol | `lab_chol_mean`, `lab_chol_std`, `lab_chol_max` |
+| LDL | `lab_ldl_mean`, `lab_ldl_std`, `lab_ldl_max` |
+| Comorbidities | `co_dm`, `co_stroke`, `co_cad`, `co_ckd`, `co_arrhythmias` |
+| Medications | `med_acei`, `med_arb`, `med_ccb`, `med_diuretics`, `med_beta_blocker` |
 
 **Output (3 targets):**
 

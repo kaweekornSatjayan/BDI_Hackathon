@@ -12,7 +12,7 @@ venv/
 
 # Data
 data/raw/
-data/processed/
+# data/processed/ — keep for CBR to work out of the box
 
 # Frontend
 frontend/node_modules/

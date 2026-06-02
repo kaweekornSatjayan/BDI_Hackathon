@@ -49,7 +49,9 @@ try:
         DM_DATA_PATH, ['lab_hba1c_0', 'lab_fpg_0', 'co_ht'], DM_FEATURE_WEIGHTS
     )
     df_ht, X_ht, scaler_ht, knn_ht, features_ht = load_cleaned_model(
-        HT_DATA_PATH, ['vitalsign_sbp_0', 'vitalsign_dbp_0', 'co_dm'], HT_FEATURE_WEIGHTS
+        HT_DATA_PATH, ['vitalsign_sbp_0', 'vitalsign_dbp_0', 'co_dm',
+                       'vitalsign_hr_0', 'lab_chol_0', 'lab_ldl_0',
+                       'lab_tg_0', 'lab_hdl_0', 'lab_fpg_0'], HT_FEATURE_WEIGHTS
     )
     print("🚀 KNN Backend models ready!")
 except Exception as e:
@@ -90,6 +92,9 @@ def suggest_medication(patient: PatientInput):
 
     elif disease == 'hypertension':
         df_query['co_dm'] = 0
+        for col in ['vitalsign_hr_0', 'lab_chol_0', 'lab_ldl_0', 'lab_tg_0', 'lab_hdl_0', 'lab_fpg_0']:
+            if col not in df_query.columns:
+                df_query[col] = 0
         feature_list  = features_ht
         X_ref, scaler = X_ht, scaler_ht
         knn_model     = knn_ht

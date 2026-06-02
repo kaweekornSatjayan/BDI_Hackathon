@@ -25,7 +25,11 @@ def clinical_statistical_clean_data(file_path, output_path, is_diabetes=True):
             'trelagliptin', 'pioglitazone', 'acarbose', 'dulaglutide', 'liraglutide', 'semaglutide',
         ]
     else:
-        specific_features = ['vitalsign_sbp_0', 'vitalsign_dbp_0', 'co_dm']
+        specific_features = [
+            'vitalsign_sbp_0', 'vitalsign_dbp_0', 'co_dm',
+            'vitalsign_hr_0', 'lab_chol_0', 'lab_ldl_0',
+            'lab_tg_0', 'lab_hdl_0', 'lab_fpg_0',
+        ]
         med_targets = [
             'acei', 'arb', 'ccb', 'beta_blocker', 'diuretics', 'hydralazine',
             'neprilysin_inhibitor', 'alpha_blocker', 'alpha2_agonist', 'alpha_beta_blocker',
@@ -57,6 +61,11 @@ def clinical_statistical_clean_data(file_path, output_path, is_diabetes=True):
         'lab_fpg_0':         {'mean': 145.0, 'std': 35.0, 'min': 90.0,  'max': 280.0},
         'vitalsign_sbp_0':   {'mean': 138.0, 'std': 12.0, 'min': 110.0, 'max': 180.0},
         'vitalsign_dbp_0':   {'mean': 84.0,  'std': 8.0,  'min': 60.0,  'max': 105.0},
+        'vitalsign_hr_0':    {'mean': 75.0,  'std': 12.0, 'min': 50.0,  'max': 110.0},
+        'lab_chol_0':        {'mean': 210.0, 'std': 35.0, 'min': 130.0, 'max': 320.0},
+        'lab_ldl_0':         {'mean': 130.0, 'std': 30.0, 'min': 60.0,  'max': 220.0},
+        'lab_tg_0':          {'mean': 155.0, 'std': 60.0, 'min': 60.0,  'max': 400.0},
+        'lab_hdl_0':         {'mean': 48.0,  'std': 12.0, 'min': 25.0,  'max': 90.0},
     }
 
     for col, dist in medical_distributions.items():
@@ -152,7 +161,8 @@ if __name__ == "__main__":
         is_diabetes=True,
     )
     clinical_statistical_clean_data(
-        "data/raw/data_dictionary_hypertension.xlsx",
+        "data/raw/data_dictionary_hypertension.xlsx" if __import__('os').path.exists("data/raw/data_dictionary_hypertension.xlsx")
+        else "data/data_dictionary_hypertension_example.xlsx",
         "data/processed/cleaned_hypertension.xlsx",
         is_diabetes=False,
     )

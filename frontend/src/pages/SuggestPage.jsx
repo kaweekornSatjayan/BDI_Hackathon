@@ -24,6 +24,11 @@ const INITIAL_FORM = {
   lab_fpg_0: '',
   vitalsign_sbp_0: '',
   vitalsign_dbp_0: '',
+  vitalsign_hr_0: '',
+  lab_chol_0: '',
+  lab_ldl_0: '',
+  lab_tg_0: '',
+  lab_hdl_0: '',
   co_ckd: false,
   co_hf: false,
   co_cad: false,
@@ -45,6 +50,11 @@ function buildPayload(form) {
     lab_fpg_0:         numOrZero(form.lab_fpg_0),
     vitalsign_sbp_0:   numOrZero(form.vitalsign_sbp_0),
     vitalsign_dbp_0:   numOrZero(form.vitalsign_dbp_0),
+    vitalsign_hr_0:    numOrZero(form.vitalsign_hr_0),
+    lab_chol_0:        numOrZero(form.lab_chol_0),
+    lab_ldl_0:         numOrZero(form.lab_ldl_0),
+    lab_tg_0:          numOrZero(form.lab_tg_0),
+    lab_hdl_0:         numOrZero(form.lab_hdl_0),
     co_ckd:            form.co_ckd ? 1 : 0,
     co_hf:             form.co_hf  ? 1 : 0,
     co_cad:            form.co_cad ? 1 : 0,
@@ -149,12 +159,27 @@ export default function SuggestPage() {
             <FieldInput id="vitalsign_dbp_0" label="DBP" unit="mmHg"
               placeholder="e.g. 90" value={form.vitalsign_dbp_0}
               onChange={(v) => setField('vitalsign_dbp_0', v)} />
+            <FieldInput id="vitalsign_hr_0" label="Heart Rate" unit="bpm"
+              placeholder="e.g. 75" value={form.vitalsign_hr_0}
+              onChange={(v) => setField('vitalsign_hr_0', v)} />
             <FieldInput id="lab_hba1c_0" label="HbA1c" unit="%"
               placeholder="e.g. 7.5" step={0.1} value={form.lab_hba1c_0}
               onChange={(v) => setField('lab_hba1c_0', v)} />
             <FieldInput id="lab_fpg_0" label="FPG" unit="mg/dL"
               placeholder="e.g. 130" value={form.lab_fpg_0}
               onChange={(v) => setField('lab_fpg_0', v)} />
+            <FieldInput id="lab_chol_0" label="Total Cholesterol" unit="mg/dL"
+              placeholder="e.g. 210" value={form.lab_chol_0}
+              onChange={(v) => setField('lab_chol_0', v)} />
+            <FieldInput id="lab_ldl_0" label="LDL" unit="mg/dL"
+              placeholder="e.g. 130" value={form.lab_ldl_0}
+              onChange={(v) => setField('lab_ldl_0', v)} />
+            <FieldInput id="lab_tg_0" label="Triglycerides" unit="mg/dL"
+              placeholder="e.g. 150" value={form.lab_tg_0}
+              onChange={(v) => setField('lab_tg_0', v)} />
+            <FieldInput id="lab_hdl_0" label="HDL" unit="mg/dL"
+              placeholder="e.g. 50" value={form.lab_hdl_0}
+              onChange={(v) => setField('lab_hdl_0', v)} />
           </div>
         </Card>
 

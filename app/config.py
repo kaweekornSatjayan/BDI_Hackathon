@@ -53,6 +53,12 @@ HT_FEATURE_WEIGHTS = {
     'vitalsign_sbp_0':        2.5,   # สำคัญที่สุดสำหรับ HT
     'vitalsign_dbp_0':        2.0,
     'co_dm':                  1.2,
+    'vitalsign_hr_0':         1.2,   # Heart rate — บ่งชี้ cardiac load
+    'lab_chol_0':             1.5,   # Total cholesterol — cardiovascular risk
+    'lab_ldl_0':              1.8,   # LDL — สำคัญมากสำหรับ HT+CVD
+    'lab_tg_0':               1.3,   # Triglycerides
+    'lab_hdl_0':              1.4,   # HDL — inverse risk
+    'lab_fpg_0':              1.2,   # FPG — diabetes overlap
 }
 
 # -------------------------------------------------------
