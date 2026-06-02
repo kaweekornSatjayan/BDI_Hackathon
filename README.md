@@ -129,7 +129,7 @@ $$P_{combined} = 1 - (1 - P_{HT}) \times (1 - P_{DM})$$
 
 ---
 
-## API Endpoints
+## API FOUND Endpoints
 
 ### POST /predict
 **Request:**
@@ -189,7 +189,7 @@ $$P_{combined} = 1 - (1 - P_{HT}) \times (1 - P_{DM})$$
 
 ---
 
-## Deployment
+## Deployment FOUND
 
 ### Production — Cloud (Hugging Face Spaces)
 
@@ -257,6 +257,92 @@ cd frontend
 npm run dev   # http://localhost:5173
 ```
 ต้องรัน backend ที่ port 8000 ก่อน (Vite proxy `/predict` และ `/api` อัตโนมัติ)
+
+---
+
+## Why These Models Were Chosen
+
+### XGBoost — Risk Prediction
+
+XGBoost was selected as the core prediction engine for the following reasons:
+
+| Reason | Detail |
+|--------|--------|
+| **Best-in-class on tabular data** | XGBoost consistently outperforms other algorithms on structured/tabular medical records — the exact format used in this system |
+| **Handles mixed feature types** | Naturally handles both continuous vitals (SBP, BMI) and binary flags (comorbidities, medications) without requiring separate preprocessing |
+| **Robust to small datasets** | Built-in L1/L2 regularization reduces overfitting, which is critical when clinical datasets are limited in size |
+| **Interpretable feature importance** | Generates feature importance scores, helping clinicians understand *why* a patient is classified as HIGH risk — essential for building trust in medical AI |
+| **Multi-output support** | Predicts HT risk, DM risk, and CAD risk simultaneously through separate trained estimators without needing separate pipelines |
+| **Proven in clinical ML** | XGBoost is widely validated in healthcare prediction tasks (readmission, mortality, disease progression) and is the most cited baseline in clinical ML literature |
+
+### Case-Based Reasoning (KNN) — Medication Suggestion
+
+CBR/KNN was chosen for medication suggestion because:
+
+| Reason | Detail |
+|--------|--------|
+| **Mirrors clinical reasoning** | Physicians naturally reason by analogy — "this patient resembles past case X, so a similar treatment may work" — CBR formalizes this approach |
+| **Evidence-based and transparent** | Suggestions come directly from real historical patient outcomes, not from an opaque black-box model |
+| **Auditable** | The system can show *which* past cases were referenced, making the suggestion explainable and acceptable to clinicians |
+| **No retraining required** | Adding new patient cases immediately improves future suggestions without retraining |
+| **Performs well with limited data** | KNN works effectively even with small training sets — an advantage over neural approaches that require large datasets |
+
+---
+
+## Why These Features Were Chosen
+
+All numeric features are derived from **longitudinal clinical records** using three aggregations — **mean, std, and max** — per measurement. This captures trends across multiple visits rather than relying on a single snapshot, which is more representative of chronic disease progression.
+
+### Demographics
+
+| Feature | Rationale |
+|---------|-----------|
+| `age` | The strongest non-modifiable risk factor for HT, DM, and CAD. Risk rises sharply after age 55. |
+| `sex` | Males have higher baseline cardiovascular risk; females face elevated risk post-menopause. Sex affects treatment thresholds in clinical guidelines. |
+
+### Blood Pressure (SBP / DBP)
+
+| Feature | Rationale |
+|---------|-----------|
+| `sbp_mean`, `sbp_std`, `sbp_max` | Systolic BP is the primary diagnostic criterion for hypertension. Mean reflects sustained vascular load; std detects variability (an independent risk factor); max captures dangerous peaks. |
+| `dbp_mean`, `dbp_std`, `dbp_max` | Diastolic BP contributes to isolated or combined hypertension classification and is strongly linked to CAD risk in younger patients. |
+
+### Metabolic Markers
+
+| Feature | Rationale |
+|---------|-----------|
+| `bmi_mean`, `bmi_std`, `bmi_max` | Obesity (BMI ≥ 30) is a root cause of insulin resistance, hypertension, and dyslipidemia — affecting all three target diseases. |
+| `hba1c_mean`, `hba1c_std`, `hba1c_max` | HbA1c reflects average blood glucose over ~3 months. It is the gold standard for DM diagnosis (≥ 6.5%) and long-term glycemic control monitoring. |
+| `fpg_mean`, `fpg_std`, `fpg_max` | Fasting Plasma Glucose is the primary DM screening test. Elevated FPG signals impaired glucose metabolism even before clinical DM onset. |
+
+### Lipid Panel
+
+| Feature | Rationale |
+|---------|-----------|
+| `chol_mean`, `chol_std`, `chol_max` | Total cholesterol is a key cardiovascular risk marker. Sustained high levels drive atherosclerosis and CAD. |
+| `ldl_mean`, `ldl_std`, `ldl_max` | LDL ("bad" cholesterol) directly causes plaque formation in coronary arteries. Lowering LDL is the primary CAD prevention target in all major clinical guidelines. |
+
+### Comorbidities
+
+| Feature | Rationale |
+|---------|-----------|
+| `co_dm` | Diabetes doubles cardiovascular risk and causes vessel and kidney damage, directly elevating HT and CAD risk. |
+| `co_stroke` | History of stroke signals existing cerebrovascular disease — strongly correlated with future cardiac events. |
+| `co_cad` | Pre-existing coronary artery disease is the strongest predictor of future CAD-related complications. |
+| `co_ckd` | Chronic kidney disease elevates blood pressure through fluid/electrolyte dysregulation and accelerates cardiovascular disease progression. |
+| `co_arrhythmias` | Arrhythmias (e.g., atrial fibrillation) increase clot risk and are independently associated with both HT and CAD. |
+
+### Current Medications
+
+Including current medications allows the model to distinguish between *controlled* and *uncontrolled* risk — a patient on 4 antihypertensives with still-high BP represents very different clinical risk than an untreated patient with the same BP values.
+
+| Feature | Rationale |
+|---------|-----------|
+| `med_acei` | ACE inhibitors lower BP and protect kidneys — their presence signals how aggressively HT is being managed. |
+| `med_arb` | ARBs serve the same role as ACEi and are used when ACEi cause side effects (e.g., dry cough). |
+| `med_ccb` | Calcium channel blockers reduce arterial stiffness — key in HT and CAD management. |
+| `med_diuretics` | Diuretics reduce fluid volume and BP — first-line HT treatment per JNC/ESC guidelines. |
+| `med_beta_blocker` | Beta-blockers slow heart rate and reduce cardiac workload — standard treatment in both CAD and HT. |
 
 ---
 
